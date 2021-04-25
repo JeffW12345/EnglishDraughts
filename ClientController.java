@@ -166,7 +166,7 @@ public class ClientController implements WindowListener {
 	void updateBoard(ClientThread clientThread, String boardRepresentation) {
 		var parsed = boardRepresentation.split(",");
 		// squares starts at one as the first entry in the string is 'board'
-		for (int squares = 2; squares < parsed.length; squares++) {
+		for (int squares = 1; squares < parsed.length; squares++) {
 			// To convert the position in the array into co-ordinates
 			// Top left corner is col 0, row 0.
 			int col = (squares - 2) % 8;
