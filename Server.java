@@ -35,18 +35,13 @@ class Server {
 		Server.model = new ServerModel();
 
 		System.out.println("Server: listening port " + Server.PORT);
-		// TODO close
 		ServerSocket socket = new ServerSocket(Server.PORT);
-		// TODO sort out locks / semaphores / synchronsiation
 		firstClientSocket = socket.accept();
 		System.out.println("Server: connection established with first client");
-		manageFirstClientConnected(firstClientSocket);// creates a
-														// thread
+		manageFirstClientConnected(firstClientSocket);// creates a thread
 		secondClientSocket = socket.accept();
 		System.out.println("Server: connection established with second client");
-		manageSecondClientConnected(secondClientSocket);// creates a
-														// thread
-
+		manageSecondClientConnected(secondClientSocket);// creates a thread
 	}
 
 	public void cleanup() throws IOException {
