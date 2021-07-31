@@ -1,4 +1,3 @@
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -6,13 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
 
+import javax.swing.*; 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.metal.*;
 
 /*
  * The GUI. Contains action listeners.
@@ -65,7 +65,7 @@ public class DraughtsBoardView implements ActionListener {
 	}
 
 	void addRedKing(int col, int row) {
-		DrawSquare.getFor(square[col][row]).setState(EState.redman_king);
+		square[col][row].add(new DrawSquare(EState.redman_king));
 	}
 
 	void addRedMan(int col, int row) {
@@ -93,7 +93,7 @@ public class DraughtsBoardView implements ActionListener {
 	}
 
 	void addWhiteKing(int col, int row) {
-		DrawSquare.getFor(square[col][row]).setState(EState.whiteman_king);
+		square[col][row].add(new DrawSquare(EState.whiteman_king));
 	}
 
 	void addWhiteMan(int col, int row) {
@@ -124,7 +124,6 @@ public class DraughtsBoardView implements ActionListener {
 		acceptDrawButton.setFont(new java.awt.Font("Arial", Font.BOLD, 18));
 		rightPanel.add(acceptDrawButton);
 		acceptDrawButton.setEnabled(false);
-		acceptDrawButton.setOpaque(true);
 		acceptDrawButton.addActionListener(this);
 		return acceptDrawButton;
 	}
@@ -134,7 +133,6 @@ public class DraughtsBoardView implements ActionListener {
 		acceptNewGameButton.setFont(new java.awt.Font("Arial", Font.BOLD, 18));
 		rightPanel.add(acceptNewGameButton);
 		acceptNewGameButton.setEnabled(false);
-		acceptNewGameButton.setOpaque(true);
 		acceptNewGameButton.addActionListener(this);
 		return acceptNewGameButton;
 	}
@@ -144,13 +142,14 @@ public class DraughtsBoardView implements ActionListener {
 		for (int row = 0; row < 8; row++) {
 			for (int column = 0; column < 8; column++) {
 				square[column][row] = new JButton();
-				square[column][row].setOpaque(true);
 				square[column][row].addActionListener(this);
 				leftPanel.add(square[column][row]);
 				if (((row + column) % 2) != 0) {
 					square[column][row].setBackground(Color.BLACK);
+					square[column][row].setOpaque(true);
 				} else {
 					square[column][row].setBackground(Color.WHITE);
+					square[column][row].setOpaque(true);
 				}
 				square[column][row].add(new DrawSquare(EState.blank));
 			}
@@ -158,17 +157,17 @@ public class DraughtsBoardView implements ActionListener {
 	}
 
 	JFrame createFrame() {
+	    try {  
+	    	// To make it so that the GUI appears the same on Macs as on Windows.
+		    UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
+		} catch (Exception e) {
+		    e.printStackTrace();
+		}
 		frame = new JFrame("English Draughts Game");
 		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 		frame.setSize(1000, 500);
 		frame.setLayout(new GridLayout(0, 2));
 		frame.addWindowListener(controller);
-		try {
-			UIManager.setLookAndFeel(
-					UIManager.getCrossPlatformLookAndFeelClassName());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		return frame;
 	}
 
@@ -184,7 +183,6 @@ public class DraughtsBoardView implements ActionListener {
 		offerDrawButton.setFont(new java.awt.Font("Arial", Font.BOLD, 18));
 		rightPanel.add(offerDrawButton);
 		offerDrawButton.setEnabled(false);
-		offerDrawButton.setOpaque(true);
 		offerDrawButton.addActionListener(this);
 		return offerDrawButton;
 	}
@@ -193,7 +191,6 @@ public class DraughtsBoardView implements ActionListener {
 		JButton offerNewGameButton = new JButton("Offer new game");
 		offerNewGameButton.setFont(new java.awt.Font("Arial", Font.BOLD, 18));
 		rightPanel.add(offerNewGameButton);
-		offerNewGameButton.setOpaque(true);
 		offerNewGameButton.addActionListener(this);
 		return offerNewGameButton;
 	}
