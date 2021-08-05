@@ -16,8 +16,8 @@ public class ClientController implements WindowListener {
 	private final DraughtsBoardView view;
 	public ClientThread clientThread;
 
-	private boolean drawOfferSentPending, drawOfferReceivedPending,
-			isRedsTurn = true, amIRed, bothClientsConnectedToServer;
+	private boolean drawOfferSentPending, drawOfferReceivedPending, isRedsTurn = true, amIRed,
+			bothClientsConnectedToServer;
 	private boolean newGameAgreedByPlayers;
 
 	ClientController(ClientThread clientThread) {
@@ -26,8 +26,7 @@ public class ClientController implements WindowListener {
 	}
 
 	public void acceptDrawButtonPressed() {
-		String messageToServer = clientThread.nextMessageId() + ","
-				+ "draw_accept";
+		String messageToServer = clientThread.nextMessageId() + "," + "draw_accept";
 		clientThread.out.println(messageToServer);
 		view.getAcceptDrawButton().setEnabled(false);
 		view.getOfferNewGameButton().setEnabled(true);
@@ -40,8 +39,7 @@ public class ClientController implements WindowListener {
 	}
 
 	public void acceptNewGameButtonPressed() {
-		String messageToServer = clientThread.nextMessageId() + ","
-				+ "new_game_accept";
+		String messageToServer = clientThread.nextMessageId() + "," + "new_game_accept";
 		clientThread.out.println(messageToServer);
 		view.getAcceptNewGameButton().setEnabled(false);
 		view.getOfferDrawButton().setEnabled(true);
@@ -71,8 +69,7 @@ public class ClientController implements WindowListener {
 	}
 
 	public void offerDrawButtonPressed() {
-		String messageToServer = clientThread.nextMessageId() + ","
-				+ "draw_offer";
+		String messageToServer = clientThread.nextMessageId() + "," + "draw_offer";
 		clientThread.out.println(messageToServer);
 		view.getOfferDrawButton().setEnabled(false);
 		drawOfferSentPending = true;
@@ -80,8 +77,7 @@ public class ClientController implements WindowListener {
 	}
 
 	public void offerNewGameButtonPressed() {
-		String messageToServer = clientThread.nextMessageId() + ","
-				+ "new_game_offer";
+		String messageToServer = clientThread.nextMessageId() + "," + "new_game_offer";
 		clientThread.out.println(messageToServer);
 		view.getOfferNewGameButton().setEnabled(false);
 		offerNewGameButtonPressedMsg();
@@ -129,23 +125,19 @@ public class ClientController implements WindowListener {
 	public void squareClicked(int column, int row) {
 
 		if (!newGameAgreedByPlayers) {
-			JOptionPane.showMessageDialog(view.frame,
-					"You need to agree a game before playing.");
+			JOptionPane.showMessageDialog(view.frame, "You need to agree a game before playing.");
 			return;
 		}
 		if (amIRed && !isRedsTurn) {
-			JOptionPane.showMessageDialog(view.frame,
-					"It is not your turn, it is white's turn");
+			JOptionPane.showMessageDialog(view.frame, "It is not your turn, it is white's turn");
 			return;
 		}
 		if (!amIRed && isRedsTurn) {
-			JOptionPane.showMessageDialog(view.frame,
-					"It is not your turn, it is red's turn");
+			JOptionPane.showMessageDialog(view.frame, "It is not your turn, it is red's turn");
 			return;
 		}
 
-		String messageToServer = clientThread.nextMessageId() + ","
-				+ "square_clicked" + "," + column + "," + row;
+		String messageToServer = clientThread.nextMessageId() + "," + "square_clicked" + "," + column + "," + row;
 		clientThread.out.println(messageToServer);
 	}
 
@@ -189,6 +181,7 @@ public class ClientController implements WindowListener {
 			}
 		}
 		view().frame.repaint();
+		view().frame.setVisible(true);
 	}
 
 	public void ifSentDrawOfferExpires(ClientThread clientThread) {
@@ -460,8 +453,7 @@ public class ClientController implements WindowListener {
 	}
 
 	public void invalidMove(ClientThread thread) {
-		JOptionPane.showMessageDialog(view.frame,
-				"Invalid move. Please try again");
+		JOptionPane.showMessageDialog(view.frame, "Invalid move. Please try again");
 	}
 
 	// The empty methods below are included as a result of the fact that the
@@ -505,5 +497,4 @@ public class ClientController implements WindowListener {
 	public void windowDeactivated(WindowEvent e) {
 
 	}
-
 }
