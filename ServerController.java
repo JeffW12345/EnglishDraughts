@@ -4,19 +4,17 @@ import java.io.IOException;
 public class ServerController {
 	private final ServerClientListenerThread client;
 
-	public ServerController(ServerClientListenerThread client)
-			throws IOException {
+	public ServerController(ServerClientListenerThread client) throws IOException {
 		this.client = client;
 	}
 
 	/*
-	 * Parses messages from the clients and sends them to the model for processing, as well as
-	 * sending messages to the clients in response to messages received.
+	 * Parses messages from the clients and sends them to the model for processing,
+	 * as well as sending messages to the clients in response to messages received.
 	 *
 	 */
 
-	public void processInboundMsgs(String msg,
-			ServerClientListenerThread listenerThread) {
+	public void processInboundMsgs(String msg, ServerClientListenerThread listenerThread) {
 
 		var parsed = CommandParser.parseFromMessage(msg); // Array of message
 															// parts.
@@ -28,7 +26,7 @@ public class ServerController {
 			// Tell other client we are ending.
 			// Used as part of functionality to shut everything down if a GUI
 			// is closed.
-			ServerController.setMessageToOtherClient("end", order);
+			setMessageToOtherClient("end", order);
 			System.exit(0);
 		}
 		// A square on the board has been clicked.
@@ -39,11 +37,7 @@ public class ServerController {
 			int col = parsed[2].asInt();
 			int row = parsed[3].asInt();
 			String rep = model().interpretUserMoveClicks(order == 1, col, row);
-			ServerController.setMessageToClients(rep);
-
-			if (model().isMovedThisTurn()) {
-				System.out.println("turn over: " + model().isTurnOver());
-			}
+			setMessageToClients(rep);
 			return;
 		}
 		// If a draw has been offered by either client.
@@ -96,14 +90,11 @@ public class ServerController {
 
 	// Sends a message to the specified client.
 	public static void setMessageToClient(String messageToClient, int order) {
-		Server.getServer().getThreadFor(order)
-				.sendMessageToClient(messageToClient);
+		Server.getServer().getThreadFor(order).sendMessageToClient(messageToClient);
 	}
 
-	public static void setMessageToOtherClient(String messageToClient,
-			int current) {
-		Server.getServer().getThreadFor(current == 1 ? 2 : 1)
-				.sendMessageToClient(messageToClient);
+	public static void setMessageToOtherClient(String messageToClient, int current) {
+		Server.getServer().getThreadFor(current == 1 ? 2 : 1).sendMessageToClient(messageToClient);
 	}
 
 	// Sends a message to both clients.
