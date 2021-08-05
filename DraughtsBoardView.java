@@ -5,13 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Scanner;
 
+import javax.swing.*; 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.metal.*;
 
 /*
  * The GUI. Contains action listeners.
@@ -21,7 +22,8 @@ public class DraughtsBoardView implements ActionListener {
 
 	JFrame frame;
 	private JPanel leftPanel, rightPanel, userInfoPanel;
-	private JButton offerNewGameButton, acceptNewGameButton, offerDrawButton, acceptDrawButton, resignButton;
+	private JButton offerNewGameButton, acceptNewGameButton, offerDrawButton,
+			acceptDrawButton, resignButton;
 	private final JButton square[][] = new JButton[8][8];
 	private final Font messagesFont = new Font("Aerial", Font.BOLD, 14);
 	private String messageToServer;
@@ -74,19 +76,24 @@ public class DraughtsBoardView implements ActionListener {
 		for (int row = 0; row < 3; row++) {
 			for (int column = 1; column < 8; column += 2) {
 				if ((row == 0) || (row == 2)) {
-					DrawSquare.getFor(square[column][row]).setState(EState.redman);
+					DrawSquare.getFor(square[column][row])
+							.setState(EState.redman);
 				}
 			}
 
-			((DrawSquare) (square[0][1].getComponents()[0])).setState(EState.redman);
-			((DrawSquare) (square[2][1].getComponents()[0])).setState(EState.redman);
-			((DrawSquare) (square[4][1].getComponents()[0])).setState(EState.redman);
-			((DrawSquare) (square[6][1].getComponents()[0])).setState(EState.redman);
+			((DrawSquare) (square[0][1].getComponents()[0]))
+					.setState(EState.redman);
+			((DrawSquare) (square[2][1].getComponents()[0]))
+					.setState(EState.redman);
+			((DrawSquare) (square[4][1].getComponents()[0]))
+					.setState(EState.redman);
+			((DrawSquare) (square[6][1].getComponents()[0]))
+					.setState(EState.redman);
 		}
 	}
 
 	void addWhiteKing(int col, int row) {
-		DrawSquare.getFor(square[col][row]).setState(EState.whiteman_king);
+		square[col][row].add(new DrawSquare(EState.whiteman_king));
 	}
 
 	void addWhiteMan(int col, int row) {
@@ -97,14 +104,18 @@ public class DraughtsBoardView implements ActionListener {
 		for (int row = 5; row < 8; row++) {
 			for (int column = 0; column < 8; column += 2) {
 				if ((row == 5) || (row == 7)) {
-					DrawSquare.getFor(square[column][row]).setState(EState.whiteman);
+					DrawSquare.getFor(square[column][row])
+							.setState(EState.whiteman);
 				}
 			}
 
 			DrawSquare.getFor(square[1][6]).setState(EState.whiteman);
-			((DrawSquare) (square[3][6].getComponents()[0])).setState(EState.whiteman);
-			((DrawSquare) (square[5][6].getComponents()[0])).setState(EState.whiteman);
-			((DrawSquare) (square[7][6].getComponents()[0])).setState(EState.whiteman);
+			((DrawSquare) (square[3][6].getComponents()[0]))
+					.setState(EState.whiteman);
+			((DrawSquare) (square[5][6].getComponents()[0]))
+					.setState(EState.whiteman);
+			((DrawSquare) (square[7][6].getComponents()[0]))
+					.setState(EState.whiteman);
 		}
 	}
 
@@ -146,11 +157,11 @@ public class DraughtsBoardView implements ActionListener {
 	}
 
 	JFrame createFrame() {
-		try {
-			// To make it so that the GUI appears the same on Macs as on Windows.
-			UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+	    try {  
+	    	// To make it so that the GUI appears the same on Macs as on Windows.
+		    UIManager.setLookAndFeel( UIManager.getCrossPlatformLookAndFeelClassName() );
 		} catch (Exception e) {
-			e.printStackTrace();
+		    e.printStackTrace();
 		}
 		frame = new JFrame("English Draughts Game");
 		frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
