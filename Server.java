@@ -22,10 +22,6 @@ class Server {
 		return Server.server;
 	}
 
-	public static void main(String[] args) throws IOException {
-		Server.server = new Server();
-	}
-
 	// Adds threads to the clients
 
 	private final Socket secondClientSocket;
