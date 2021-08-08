@@ -87,11 +87,11 @@ public class ClientController implements WindowListener {
 	public void resignButtonPressed() {
 		String messageToServer = clientThread.nextMessageId() + "," + "resign";
 		clientThread.out.println(messageToServer);
-		view().getOfferNewGameButton().setEnabled(true);
-		view().getAcceptNewGameButton().setEnabled(false);
-		view().getAcceptDrawButton().setEnabled(false);
-		view().getResignButton().setEnabled(false);
-		view().getOfferDrawButton().setEnabled(false);
+		view.getOfferNewGameButton().setEnabled(true);
+		view.getAcceptNewGameButton().setEnabled(false);
+		view.getAcceptDrawButton().setEnabled(false);
+		view.getResignButton().setEnabled(false);
+		view.getOfferDrawButton().setEnabled(false);
 		newGameAgreedByPlayers = false;// To prevent further moves
 		resignButtonPressedMsg();
 	}
@@ -165,61 +165,61 @@ public class ClientController implements WindowListener {
 			int row = (squares - 2) / 8;
 
 			if (parsed[squares].equals("null")) {
-				view().setBlank(col, row);
+				view.setBlank(col, row);
 			}
 			if (parsed[squares].equals("red_man")) {
-				view().addRedMan(col, row);
+				view.addRedMan(col, row);
 			}
 			if (parsed[squares].equals("white_man")) {
-				view().addWhiteMan(col, row);
+				view.addWhiteMan(col, row);
 			}
 			if (parsed[squares].equals("red_king")) {
-				view().addRedKing(col, row);
+				view.addRedKing(col, row);
 			}
 			if (parsed[squares].equals("white_king")) {
-				view().addWhiteKing(col, row);
+				view.addWhiteKing(col, row);
 			}
 		}
-		view().frame.repaint();
-		view().frame.setVisible(true);
+		view.frame.repaint();
+		view.frame.setVisible(true);
 	}
 
 	public void ifSentDrawOfferExpires(ClientThread clientThread) {
 		setDrawOfferSentPending(false);
-		view().getOfferNewGameButton().setEnabled(false);
-		view().getAcceptNewGameButton().setEnabled(false);
-		view().getAcceptDrawButton().setEnabled(false);
-		view().getResignButton().setEnabled(true);
-		view().getOfferDrawButton().setEnabled(true);
+		view.getOfferNewGameButton().setEnabled(false);
+		view.getAcceptNewGameButton().setEnabled(false);
+		view.getAcceptDrawButton().setEnabled(false);
+		view.getResignButton().setEnabled(true);
+		view.getOfferDrawButton().setEnabled(true);
 		ifWhiteLostMsg();
 	}
 
 	public void ifRedLost(ClientThread clientThread) {
-		view().getOfferNewGameButton().setEnabled(true);
-		view().getResignButton().setEnabled(false);
-		view().getOfferDrawButton().setEnabled(false);
-		view().getAcceptNewGameButton().setEnabled(false);
-		view().getAcceptDrawButton().setEnabled(false);
+		view.getOfferNewGameButton().setEnabled(true);
+		view.getResignButton().setEnabled(false);
+		view.getOfferDrawButton().setEnabled(false);
+		view.getAcceptNewGameButton().setEnabled(false);
+		view.getAcceptDrawButton().setEnabled(false);
 		newGameAgreedByPlayers = false; // To prevent further moves
 		ifRedLostMsg();
 	}
 
 	public void ifWhiteLost(ClientThread clientThread) {
-		view().getOfferNewGameButton().setEnabled(true);
-		view().getResignButton().setEnabled(false);
-		view().getOfferDrawButton().setEnabled(false);
-		view().getAcceptNewGameButton().setEnabled(false);
-		view().getAcceptDrawButton().setEnabled(false);
+		view.getOfferNewGameButton().setEnabled(true);
+		view.getResignButton().setEnabled(false);
+		view.getOfferDrawButton().setEnabled(false);
+		view.getAcceptNewGameButton().setEnabled(false);
+		view.getAcceptDrawButton().setEnabled(false);
 		newGameAgreedByPlayers = false; // To prevent further moves
 		ifWhiteLostMsg();
 	}
 
 	public void ifNewGameOfferAcceptedByOtherClient(ClientThread clientThread) {
-		view().getResignButton().setEnabled(true);
-		view().getOfferDrawButton().setEnabled(true);
-		view().getOfferNewGameButton().setEnabled(false);
-		view().getAcceptNewGameButton().setEnabled(false);
-		view().getAcceptDrawButton().setEnabled(false);
+		view.getResignButton().setEnabled(true);
+		view.getOfferDrawButton().setEnabled(true);
+		view.getOfferNewGameButton().setEnabled(false);
+		view.getAcceptNewGameButton().setEnabled(false);
+		view.getAcceptDrawButton().setEnabled(false);
 		isRedsTurn = true; // Red starts first in new games.
 		drawOfferSentPending = false; // To cancel any pending offers.
 		drawOfferReceivedPending = false;
@@ -228,52 +228,52 @@ public class ClientController implements WindowListener {
 	}
 
 	public void ifNewGameOfferReceived(ClientThread clientThread) {
-		view().getAcceptNewGameButton().setEnabled(true);
-		view().getOfferNewGameButton().setEnabled(false);
-		view().getAcceptDrawButton().setEnabled(false);
-		view().getResignButton().setEnabled(false);
-		view().getOfferDrawButton().setEnabled(false);
+		view.getAcceptNewGameButton().setEnabled(true);
+		view.getOfferNewGameButton().setEnabled(false);
+		view.getAcceptDrawButton().setEnabled(false);
+		view.getResignButton().setEnabled(false);
+		view.getOfferDrawButton().setEnabled(false);
 		ifNewGameOfferReceivedMsg();
 	}
 
 	public void ifOtherPlayerResigns(ClientThread clientThread) {
-		view().getOfferNewGameButton().setEnabled(true);
-		view().getAcceptNewGameButton().setEnabled(false);
-		view().getAcceptDrawButton().setEnabled(false);
-		view().getResignButton().setEnabled(false);
-		view().getOfferDrawButton().setEnabled(false);
+		view.getOfferNewGameButton().setEnabled(true);
+		view.getAcceptNewGameButton().setEnabled(false);
+		view.getAcceptDrawButton().setEnabled(false);
+		view.getResignButton().setEnabled(false);
+		view.getOfferDrawButton().setEnabled(false);
 		newGameAgreedByPlayers = false; // To prevent further moves
 		ifOtherPlayerResignsMsg();
 	}
 
 	public void ifDrawOfferAcceptedByOtherClient(ClientThread clientThread) {
-		view().getOfferNewGameButton().setEnabled(true);
-		view().getAcceptNewGameButton().setEnabled(false);
-		view().getAcceptDrawButton().setEnabled(false);
-		view().getResignButton().setEnabled(false);
-		view().getOfferDrawButton().setEnabled(false);
+		view.getOfferNewGameButton().setEnabled(true);
+		view.getAcceptNewGameButton().setEnabled(false);
+		view.getAcceptDrawButton().setEnabled(false);
+		view.getResignButton().setEnabled(false);
+		view.getOfferDrawButton().setEnabled(false);
 		newGameAgreedByPlayers = false; // To prevent further moves
 		ifDrawOfferAcceptedByOtherClientMsg();
 	}
 
 	public void ifDrawOfferMadeByOtherClient(ClientThread clientThread) {
 		setDrawOfferReceivedPending(true);
-		view().getAcceptDrawButton().setEnabled(true);
-		view().getOfferDrawButton().setEnabled(false);
-		view().getResignButton().setEnabled(false);
-		view().getAcceptNewGameButton().setEnabled(false);
-		view().getOfferNewGameButton().setEnabled(false);
+		view.getAcceptDrawButton().setEnabled(true);
+		view.getOfferDrawButton().setEnabled(false);
+		view.getResignButton().setEnabled(false);
+		view.getAcceptNewGameButton().setEnabled(false);
+		view.getOfferNewGameButton().setEnabled(false);
 		ifDrawOfferMadeByOtherClientMsg();
 	}
 
 	public void ifReceivedDrawOfferExpires(ClientThread clientThread) {
 		ifReceivedDrawOfferExpiresMsg();
 		setDrawOfferReceivedPending(false);
-		view().getAcceptDrawButton().setEnabled(false);
-		view().getOfferDrawButton().setEnabled(true);
-		view().getResignButton().setEnabled(true);
-		view().getAcceptNewGameButton().setEnabled(false);
-		view().getOfferNewGameButton().setEnabled(false);
+		view.getAcceptDrawButton().setEnabled(false);
+		view.getOfferDrawButton().setEnabled(true);
+		view.getResignButton().setEnabled(true);
+		view.getAcceptNewGameButton().setEnabled(false);
+		view.getOfferNewGameButton().setEnabled(false);
 		ifReceivedDrawOfferExpiresMsg();
 	}
 
@@ -424,10 +424,6 @@ public class ClientController implements WindowListener {
 		view.setMiddleLineMessage("It's now white's turn.");
 		view.setBottomLineMessage("");
 		view.updateLabels();
-	}
-
-	DraughtsBoardView view() {
-		return clientThread.controller.view;
 	}
 
 	public boolean isBothPlayersReady() {
