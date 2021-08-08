@@ -16,15 +16,13 @@ class Server {
 	public static ServerModel model;
 	public ServerClientListenerThread thread1, thread2;
 
-	private final Socket firstClientSocket;
+	private final Socket firstClientSocket, secondClientSocket;
 
 	public static Server getServer() {
 		return Server.server;
 	}
 
 	// Adds threads to the clients
-
-	private final Socket secondClientSocket;
 
 	Server() throws IOException {
 		Server.server = this;
