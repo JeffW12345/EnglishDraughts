@@ -5,6 +5,6 @@
 public class Client {
 	public static void main(String[] args) {
 		var client = new ClientThread();
-		client.start("Client ref: " + (int) (10000 * Math.random()));
+		client.start("Client debug ref: " + (int) (10000 * Math.random()));
 	}
 }
