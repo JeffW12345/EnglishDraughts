@@ -155,8 +155,8 @@ public class ClientController implements WindowListener {
 	// Uses the string representation of the board obtained from the server to
 	// update the view.
 
-	void updateBoard(ClientThread clientThread, String boardRepresentation) {
-		var parsed = boardRepresentation.split(",");
+	void updateBoard(String boardRepresentation) {
+		String[] parsed = boardRepresentation.split(",");
 		// squares starts at one as the first entry in the string is 'board'
 		for (int squares = 1; squares < parsed.length; squares++) {
 			// To convert the position in the array into co-ordinates
@@ -184,7 +184,7 @@ public class ClientController implements WindowListener {
 		view.frame.setVisible(true);
 	}
 
-	public void ifSentDrawOfferExpires(ClientThread clientThread) {
+	public void ifSentDrawOfferExpires() {
 		setDrawOfferSentPending(false);
 		view.getOfferNewGameButton().setEnabled(false);
 		view.getAcceptNewGameButton().setEnabled(false);
@@ -194,7 +194,7 @@ public class ClientController implements WindowListener {
 		ifWhiteLostMsg();
 	}
 
-	public void ifRedLost(ClientThread clientThread) {
+	public void ifRedLost() {
 		view.getOfferNewGameButton().setEnabled(true);
 		view.getResignButton().setEnabled(false);
 		view.getOfferDrawButton().setEnabled(false);
@@ -204,7 +204,7 @@ public class ClientController implements WindowListener {
 		ifRedLostMsg();
 	}
 
-	public void ifWhiteLost(ClientThread clientThread) {
+	public void ifWhiteLost() {
 		view.getOfferNewGameButton().setEnabled(true);
 		view.getResignButton().setEnabled(false);
 		view.getOfferDrawButton().setEnabled(false);
@@ -214,7 +214,7 @@ public class ClientController implements WindowListener {
 		ifWhiteLostMsg();
 	}
 
-	public void ifNewGameOfferAcceptedByOtherClient(ClientThread clientThread) {
+	public void ifNewGameOfferAcceptedByOtherClient() {
 		view.getResignButton().setEnabled(true);
 		view.getOfferDrawButton().setEnabled(true);
 		view.getOfferNewGameButton().setEnabled(false);
@@ -227,7 +227,7 @@ public class ClientController implements WindowListener {
 		ifNewGameOfferAcceptedByOtherClientMsg();
 	}
 
-	public void ifNewGameOfferReceived(ClientThread clientThread) {
+	public void ifNewGameOfferReceived() {
 		view.getAcceptNewGameButton().setEnabled(true);
 		view.getOfferNewGameButton().setEnabled(false);
 		view.getAcceptDrawButton().setEnabled(false);
@@ -236,7 +236,7 @@ public class ClientController implements WindowListener {
 		ifNewGameOfferReceivedMsg();
 	}
 
-	public void ifOtherPlayerResigns(ClientThread clientThread) {
+	public void ifOtherPlayerResigns() {
 		view.getOfferNewGameButton().setEnabled(true);
 		view.getAcceptNewGameButton().setEnabled(false);
 		view.getAcceptDrawButton().setEnabled(false);
@@ -246,7 +246,7 @@ public class ClientController implements WindowListener {
 		ifOtherPlayerResignsMsg();
 	}
 
-	public void ifDrawOfferAcceptedByOtherClient(ClientThread clientThread) {
+	public void ifDrawOfferAcceptedByOtherClient() {
 		view.getOfferNewGameButton().setEnabled(true);
 		view.getAcceptNewGameButton().setEnabled(false);
 		view.getAcceptDrawButton().setEnabled(false);
@@ -256,7 +256,7 @@ public class ClientController implements WindowListener {
 		ifDrawOfferAcceptedByOtherClientMsg();
 	}
 
-	public void ifDrawOfferMadeByOtherClient(ClientThread clientThread) {
+	public void ifDrawOfferMadeByOtherClient() {
 		setDrawOfferReceivedPending(true);
 		view.getAcceptDrawButton().setEnabled(true);
 		view.getOfferDrawButton().setEnabled(false);
@@ -266,7 +266,7 @@ public class ClientController implements WindowListener {
 		ifDrawOfferMadeByOtherClientMsg();
 	}
 
-	public void ifReceivedDrawOfferExpires(ClientThread clientThread) {
+	public void ifReceivedDrawOfferExpires() {
 		ifReceivedDrawOfferExpiresMsg();
 		setDrawOfferReceivedPending(false);
 		view.getAcceptDrawButton().setEnabled(false);
@@ -448,7 +448,7 @@ public class ClientController implements WindowListener {
 
 	}
 
-	public void invalidMove(ClientThread thread) {
+	public void invalidMove() {
 		JOptionPane.showMessageDialog(view.frame, "Invalid move. Please try again");
 	}
 
@@ -493,4 +493,5 @@ public class ClientController implements WindowListener {
 	public void windowDeactivated(WindowEvent e) {
 
 	}
+
 }
