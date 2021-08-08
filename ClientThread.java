@@ -1,9 +1,6 @@
 
 /*
- * Sets up a connection with the server.
- *
- * Also sends and receives messages.
- *
+ * Sets up a connection with the server. Also sends to server and receives messages from it.
  */
 
 import java.io.IOException;
@@ -21,9 +18,6 @@ public class ClientThread implements Runnable {
 	ClientController controller;
 	private int messageID = 0;
 
-	ClientThread() {
-	}
-
 	public int getOrder() {
 		return order;
 	}
@@ -40,17 +34,22 @@ public class ClientThread implements Runnable {
 	public void run() {
 
 		try {
-			serverConnect();
+			serverConnect(); // Sets up a connection with the server.
 			controller = new ClientController(this);
-
 			boolean serverNotYetToldBothClientsConnected = true;
+			// The functionality within the 'while' loop deals with incoming messages from
+			// the server.
 			while (true) {
-
 				String inputMsgFromServer = in.nextLine().trim();
-				System.out.println(Thread.currentThread().getName()
-						+ " received message: " + inputMsgFromServer);
+				// Console update to check everything working as it should be.
+				System.out.println(
+						Thread.currentThread().getName() + " received message from server: " + inputMsgFromServer);
+				// When the server connects with a client, it sends them a 'hello' message.
+				// The first client to connect gets sent the message: 0, hello, 1. The '1' shows
+				// that it is the first client.
+				// This first client is the red player, so this message is used to tell the
+				// clients whether they are red or white.
 				var parsed = CommandParser.parseFromMessage(inputMsgFromServer);
-
 				if (parsed[1].toString().contains("hello")) {
 					order = parsed[2].asInt();
 					controller.setRedsTurn(true);
@@ -59,8 +58,7 @@ public class ClientThread implements Runnable {
 					} else {
 						controller.setAmIRed(false);
 					}
-					Thread.currentThread().setName("Client listener "
-							+ (order == 1 ? "first " : "second ") + "thread");
+					Thread.currentThread().setName("Client listener " + (order == 1 ? "first " : "second ") + "thread");
 
 					// When the second (and therefore final) client has been
 					// created, this tells server both clients are connected.
@@ -73,63 +71,64 @@ public class ClientThread implements Runnable {
 				}
 
 				// Server telling both clients that they are both ready.
-				if (parsed[1].toString()
-						.contains("both_ready_acknowledgement")) {
+				if (parsed[1].toString().contains("both_ready_acknowledgement")) {
 					controller.setBothPlayersReady(true);
 					controller.bothPlayersReadyActions();
 					continue;
 				}
 
+				// Updating the board graphics after a move has been made.
+				// The server passes in a representation of the board as a message.
 				if (parsed[1].toString().contains("board")) {
-					controller.updateBoard(this, inputMsgFromServer);
+					controller.updateBoard(inputMsgFromServer);
 					continue;
 				}
-
+				// Actions if it has just become red's turn (excluding first move).
 				if (parsed[1].toString().equals("new_turn_red")) {
 					controller.setRedsTurn(true);
 					if (controller.isDrawOfferSentPending()) {
-						controller.ifSentDrawOfferExpires(this);
+						controller.ifSentDrawOfferExpires();
 					}
 					if (controller.isDrawOfferReceivedPending()) {
-						controller.ifReceivedDrawOfferExpires(this);
+						controller.ifReceivedDrawOfferExpires();
 					}
 				}
-
+				// Actions if it has just become white's turn
 				if (parsed[1].toString().equals("new_turn_white")) {
 					controller.setRedsTurn(false);
 					if (controller.isDrawOfferSentPending()) {
-						controller.ifSentDrawOfferExpires(this);
+						controller.ifSentDrawOfferExpires();
 					}
 					if (controller.isDrawOfferReceivedPending()) {
-						controller.ifReceivedDrawOfferExpires(this);
+						controller.ifReceivedDrawOfferExpires();
 					}
 				}
 
 				if (parsed[1].toString().equals("draw_offer_made")) {
-					controller.ifDrawOfferMadeByOtherClient(this);
+					controller.ifDrawOfferMadeByOtherClient();
 				}
 				if (parsed[1].toString().equals("draw_offer_accepted")) {
-					controller.ifDrawOfferAcceptedByOtherClient(this);
+					controller.ifDrawOfferAcceptedByOtherClient();
 				}
 				if (parsed[1].toString().equals("other_player_resigned")) {
-					controller.ifOtherPlayerResigns(this);
+					controller.ifOtherPlayerResigns();
 				}
 				if (parsed[1].toString().equals("want_a_game")) {
-					System.out.println("ORDER DEBUG + " + order);
-					controller.ifNewGameOfferReceived(this);
+
+					controller.ifNewGameOfferReceived();
 				}
 				if (parsed[1].toString().equals("new_game_offer_accepted")) {
-					controller.ifNewGameOfferAcceptedByOtherClient(this);
+					controller.ifNewGameOfferAcceptedByOtherClient();
 				}
 
 				if (parsed[1].toString().equals("white_lost")) {
-					controller.ifWhiteLost(this);
+					controller.ifWhiteLost();
 				}
 				if (parsed[1].toString().equals("red_lost")) {
-					controller.ifRedLost(this);
+					controller.ifRedLost();
 				}
 				if (parsed[1].toString().equals("invalid_move")) {
-					controller.invalidMove(this);
+					controller.invalidMove();
 				}
 				if (parsed[1].toString().equals("end")) {
 					System.exit(0);
