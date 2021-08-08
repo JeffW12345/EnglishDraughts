@@ -1,4 +1,3 @@
-
 import java.io.IOException;
 
 public class ServerController {
@@ -66,7 +65,7 @@ public class ServerController {
 
 		// If either client has resigned.
 		if (command.equals("resign")) {
-			if (order == 1) {
+			if (order == 1 || order == 2) {
 				setMessageToOtherClient("other_player_resigned", order);
 				return;
 			}
@@ -147,5 +146,4 @@ public class ServerController {
 		setMessageToClients("new_turn_white");
 
 	}
-
 }
