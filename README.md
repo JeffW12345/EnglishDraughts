@@ -11,5 +11,3 @@ java Server
 java Client
 
 'java Client' needs to be typed in two different terminals.
-
-NB: The code currently does not run properly on Macs, but I am in the process of fixing that issue. 
